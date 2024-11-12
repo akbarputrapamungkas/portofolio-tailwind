@@ -101,9 +101,9 @@
           <div class="w-full self-center px-4 lg:w-1/2">
             <h1 class="text-base font-semibold text-green-500 md:text-xl">
               halo semua👋, saya<span
+                id="typed2"
                 class="block font-bold text-slate-900 text-3xl mt-1 lg:text-5xl"
-                >Abar Putra Pamungkas</span
-              >
+              ></span>
             </h1>
             <h2 class="lg:text-2xl my-1.5">universitas pasundan | mahasiswa</h2>
             <p class="font-medium text-slate-400 mb-10 leading-relaxed">
@@ -672,6 +672,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
       AOS.init();
+    </script>
+    <!-- typed js -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+      var typed2 = new Typed("#typed2", {
+        strings: ["Akbar putra pamungkas", "Front End Dev"],
+        typeSpeed: 100,
+        backSpeed: 100,
+        fadeOut: true,
+        loop: true,
+      });
     </script>
   </body>
 </html>
