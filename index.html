@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
     <!-- awal tag meta -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,14 +31,19 @@
       content="LDSaOzP7vVtmaPWlJ4LgpfBuLr3U_bdG_3oi3GWlLgE"
     />
     <!-- akhir tag meta -->
-    <link href="src/output.css" rel="stylesheet" />
-    <title>Akbar Putra Pamungkas portofolio</title>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="assets/css/output.css" rel="stylesheet" />
+    <title>Akbar Putra Pamungkas | Portfolio</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
     />
   </head>
-  <body>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
     <!-- navbar -->
     <header
       class="bg-transparent absolute top-0 left-0 w-full flex items-center z-10"
@@ -38,16 +51,51 @@
       <div class="container">
         <div class="flex items-center justify-between relative">
           <div class="px-4">
-            <a href="#home" class="font-bold text-lg text-green-500 block py-6"
-              >Akbar putra pamungkas</a
+            <a href="#home" class="font-extrabold text-xl bg-gradient-to-r from-indigo-500 to-emerald-400 bg-clip-text text-transparent block py-6 tracking-tight"
+              >akbarputra.dev</a
             >
           </div>
           <div class="flex items-center px-4">
+            <!-- theme toggle button -->
+            <button
+              id="theme-toggle"
+              type="button"
+              class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900/60 focus:outline-none focus:ring-4 focus:ring-slate-200 dark:focus:ring-slate-800/50 rounded-lg text-sm p-2 mr-2 inline-flex items-center transition duration-300"
+              aria-label="Toggle dark mode"
+            >
+              <!-- Sun Icon (visible in dark mode) -->
+              <svg
+                id="theme-toggle-light-icon"
+                class="hidden w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.46 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <!-- Moon Icon (visible in light mode) -->
+              <svg
+                id="theme-toggle-dark-icon"
+                class="hidden w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                ></path>
+              </svg>
+            </button>
+
             <button
               id="hamburger"
               name="hamburger"
               type="button"
-              class="block absolute right-4 lg:hidden"
+              class="block absolute right-4 lg:hidden focus:outline-none"
             >
               <span
                 class="hamburger-line transition duration-300 ease-in-out origin-bottom-left"
@@ -62,49 +110,49 @@
 
             <nav
               id="nav-menu"
-              class="hidden lg:block lg:shadow-none lg:rounded-none lg:static lg:bg-transparent lg:max-w-full absolute top-full right-4 py-5 bg-green-50 shadow-lg rounded-lg max-w-[250px] w-full"
+              class="hidden lg:block lg:shadow-none lg:rounded-none lg:static lg:bg-transparent lg:max-w-full absolute top-full right-4 py-5 bg-white dark:bg-slate-900 lg:dark:bg-transparent shadow-lg border border-slate-200/50 dark:border-slate-800/50 lg:border-none rounded-lg max-w-[250px] w-full z-50 transition-colors"
             >
               <ul class="block lg:flex">
                 <li class="group">
                   <a
                     href="#home"
-                    class="text-base flex font-semibold text-slate-900 py-2 mx-4 group-hover:text-green-500"
+                    class="text-sm flex font-semibold text-slate-700 dark:text-slate-300 py-2.5 mx-4 group-hover:text-indigo-500 dark:group-hover:text-emerald-400 transition"
                     >BERANDA</a
                   >
                 </li>
                 <li class="group">
                   <a
                     href="#about"
-                    class="text-base flex font-semibold text-slate-900 py-2 mx-4 group-hover:text-green-500"
+                    class="text-sm flex font-semibold text-slate-700 dark:text-slate-300 py-2.5 mx-4 group-hover:text-indigo-500 dark:group-hover:text-emerald-400 transition"
                     >TENTANG SAYA</a
                   >
                 </li>
                 <li class="group">
                   <a
                     href="#portofolio"
-                    class="text-base flex font-semibold text-slate-900 py-2 mx-4 group-hover:text-green-500"
+                    class="text-sm flex font-semibold text-slate-700 dark:text-slate-300 py-2.5 mx-4 group-hover:text-indigo-500 dark:group-hover:text-emerald-400 transition"
                     >PORTOFOLIO</a
                   >
                 </li>
                 <li class="group">
                   <a
                     href="#sertifikat"
-                    class="text-base flex font-semibold text-slate-900 py-2 mx-4 group-hover:text-green-500"
+                    class="text-sm flex font-semibold text-slate-700 dark:text-slate-300 py-2.5 mx-4 group-hover:text-indigo-500 dark:group-hover:text-emerald-400 transition"
                     >SERTIFIKAT</a
                   >
                 </li>
                 <li class="group">
                   <a
                     href="#blog"
-                    class="text-base flex font-semibold text-slate-900 py-2 mx-4 group-hover:text-green-500"
+                    class="text-sm flex font-semibold text-slate-700 dark:text-slate-300 py-2.5 mx-4 group-hover:text-indigo-500 dark:group-hover:text-emerald-400 transition"
                     >BLOG</a
                   >
                 </li>
                 <li class="group">
                   <a
                     href="#contact"
-                    class="text-base flex font-semibold text-slate-900 py-2 mx-4 group-hover:text-green-500"
-                    >KONTAK SAYA</a
+                    class="text-sm flex font-semibold text-slate-700 dark:text-slate-300 py-2.5 mx-4 group-hover:text-indigo-500 dark:group-hover:text-emerald-400 transition"
+                    >KONTAK</a
                   >
                 </li>
               </ul>
@@ -115,40 +163,59 @@
     </header>
     <!-- akhir navbar -->
     <!-- hero -->
-    <section id="home" class="pt-28 overflow-x-hidden">
-      <div class="container">
-        <div class="flex flex-wrap">
-          <div class="w-full self-center px-4 lg:w-1/2">
-            <h1 class="text-base font-semibold text-green-500 md:text-xl">
+    <section id="home" class="relative pt-36 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+      <!-- Glow background blobs -->
+      <div class="absolute top-20 left-1/4 w-72 h-72 bg-indigo-500/10 dark:bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-40 right-1/4 w-80 h-80 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="container relative z-10">
+        <div class="flex flex-wrap items-center">
+          <div class="w-full px-4 lg:w-1/2 mb-12 lg:mb-0">
+            <h1 class="text-sm md:text-base font-semibold text-indigo-600 dark:text-indigo-400 tracking-wider uppercase mb-2">
               halo semua👋, saya
-              <!-- BAGIAN YANG DIPERBAIKI: Dibungkus dengan span block agar kursor tetap sejajar dengan teks -->
-              <span class="block mt-1">
+              <span class="block mt-2">
                 <span
                   id="typed5"
-                  class="font-bold text-slate-900 text-3xl lg:text-5xl"
+                  class="font-extrabold text-slate-900 dark:text-white text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-indigo-600 via-purple-600 to-emerald-500 dark:from-indigo-400 dark:via-purple-400 dark:to-emerald-400 bg-clip-text text-transparent"
                 ></span>
               </span>
             </h1>
-            <h2 class="lg:text-2xl my-1.5">universitas pasundan | mahasiswa</h2>
-            <p class="font-medium text-slate-400 mb-10 leading-relaxed">
-              selamat datang di website portofolio saya
+            <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/30 my-3">
+              Universitas Pasundan | Mahasiswa Teknik Informatika
+            </div>
+            <p class="font-medium text-slate-500 dark:text-slate-400 text-base md:text-lg mb-8 leading-relaxed max-w-lg">
+              Selamat datang di website portofolio saya. Berfokus pada rekayasa perangkat lunak web dan ketertarikan mendalam pada infrastruktur server / SysAdmin.
             </p>
-            <a
-              href="#kontak"
-              class="text-base font-semibold py-3 px-8 text-white hover:text-purple-500 rounded-full hover:shadow-2xl hover:bg-slate-900 bg-green-500 transition duration-300 ease-in-out"
-              >hubungi saya</a
-            >
+            <div class="flex flex-wrap gap-4">
+              <a
+                href="#contact"
+                class="text-sm md:text-base font-bold py-3 px-8 text-white rounded-full bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-500/30 transition duration-300 ease-in-out transform hover:-translate-y-0.5"
+                >Hubungi Saya</a
+              >
+              <a
+                href="#portofolio"
+                class="text-sm md:text-base font-bold py-3 px-8 text-slate-700 dark:text-slate-300 rounded-full bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition duration-300 ease-in-out transform hover:-translate-y-0.5"
+                >Lihat Project</a
+              >
+            </div>
           </div>
-          <div class="w-full self-end px-3 lg:w-1/2">
-            <div class="relative mt-10 lg:mt-9">
-              <img
-                src="img/akbar01.png"
-                alt="akbar"
-                title="Akbar putra pamungkas"
-                class="relative mx-auto max-w-full w-3/4"
-                data-aos="fade-left"
-                data-aos-duration="3000"
-              />
+          <div class="w-full px-4 lg:w-1/2">
+            <!-- Terminal mockup element -->
+            <div class="relative mx-auto max-w-lg w-full rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-slate-950/75 backdrop-blur-md" data-aos="fade-left" data-aos-duration="1500">
+              <!-- Terminal Top Bar -->
+              <div class="flex items-center justify-between px-4 py-3 bg-slate-100 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800/80">
+                <div class="flex space-x-2">
+                  <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                </div>
+                <div class="text-xs font-mono text-slate-500 dark:text-slate-400">bash - visitor@akbar-infra:~</div>
+                <div class="w-10"></div>
+              </div>
+              <!-- Terminal Body -->
+              <div class="p-5 md:p-6 min-h-[300px] font-mono text-left bg-slate-950 dark:bg-slate-950 text-slate-300 overflow-y-auto">
+                <div id="terminal-text" class="space-y-1.5 leading-relaxed"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -157,416 +224,480 @@
     <!-- akhir hero -->
 
     <!-- about -->
-    <section id="about" class="pt-36 pb-32 overflow-x-hidden">
+    <section id="about" class="pt-32 pb-28 bg-white dark:bg-slate-900 transition-colors duration-300 overflow-hidden">
       <div class="container">
-        <div class="flex flex-wrap">
-          <div class="w-full px-4 mb-10 lg:w-1/2">
-            <h4 class="font-bold uppercase text-emerald-500 text-lg mb-3">
+        <div class="flex flex-wrap items-center">
+          <!-- Left: Profile Image Card -->
+          <div class="w-full px-4 mb-12 lg:mb-0 lg:w-5/12">
+            <div class="relative group max-w-xs mx-auto lg:max-w-none">
+              <!-- Glow background -->
+              <div class="absolute -inset-2 bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-2xl blur-xl opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+              <!-- Image container -->
+              <div class="relative bg-slate-100 dark:bg-slate-800/50 p-3 rounded-2xl border border-slate-200/60 dark:border-slate-700/40 shadow-xl">
+                <img
+                  src="img/akbar01.png"
+                  alt="Akbar Putra Pamungkas"
+                  title="Akbar Putra Pamungkas"
+                  class="rounded-xl w-full object-cover grayscale hover:grayscale-0 transition duration-700 ease-in-out"
+                  data-aos="fade-right"
+                  data-aos-duration="1500"
+                />
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right: Text Content -->
+          <div class="w-full px-4 lg:w-7/12 lg:pl-12">
+            <h4 class="font-bold uppercase text-indigo-600 dark:text-indigo-400 text-sm md:text-base tracking-widest mb-3">
               tentang saya
             </h4>
-            <h2 class="font-bold text-dark text-3xl mb-5 max-w-md lg:text-4xl">
-              mahasiswa teknik informatika
+            <h2 class="font-extrabold text-slate-900 dark:text-white text-3xl mb-5 max-w-md lg:text-4xl tracking-tight">
+              Mahasiswa Teknik Informatika
             </h2>
-            <p class="font-medium text-base text-slate-500 max-w-xl lg:text-md">
-              Saya Akbar Putra Pamungkas, mahasiswa baru Teknik Informatika di
-              Universitas Pasundan, yang bersemangat untuk mengembangkan
-              kemampuan dan menekuni dunia teknologi informasi demi menciptakan
-              solusi inovatif.
+            <p class="font-medium text-base text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
+              Saya Akbar Putra Pamungkas, mahasiswa Teknik Informatika di Universitas Pasundan. Saya bersemangat untuk mengembangkan kemampuan dan menekuni dunia teknologi informasi khususnya rekayasa perangkat lunak dan sistem infrastruktur server/SysAdmin demi menciptakan solusi inovatif dan efisien.
             </p>
-          </div>
-          <div id="kontak" class="w-full px-4 lg:w-1/2">
-            <h3
-              class="text-dark font-semibold text-2xl mb-4 lg:text-3xl lg:pt-10"
-            >
-              sosial media
-            </h3>
-            <p class="font-medium text-base text-slate-500 mb-6 lg:text-lg">
-              Terhubung dengan saya melalui media sosial untuk berbagi ide,
-              pengalaman, dan update terbaru seputar dunia teknologi dan
-              pengembangan diri
-            </p>
-            <div class="flex items-center">
-              <!-- instagram -->
-              <a
-                href="https://www.instagram.com/akbar.p.pamungkas.35?igsh=bHJhcGtsZGU0bjV3"
-                target="_blank"
-                class="w-10 h-10 mr-3 rounded-full flex justify-content-center items-center border border-slate-300 p-2 hover:border-emerald-500 hover:bg-[radial-gradient(circle_at_30%_107%,_#fdf497_0%,_#fdf497_5%,_#fd5949_45%,_#d6249f_60%,_#285aeb_90%)] hover:text-white"
-                ><svg
-                  role="img"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25px"
-                  class="fill-current"
+            
+            <div id="kontak" class="border-t border-slate-100 dark:border-slate-800 pt-6">
+              <h3 class="text-slate-900 dark:text-white font-bold text-xl mb-4">
+                sosial media
+              </h3>
+              <p class="font-medium text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-xl">
+                Terhubung dengan saya melalui media sosial untuk berbagi ide, pengalaman, dan update terbaru seputar dunia teknologi.
+              </p>
+              
+              <div class="flex flex-wrap items-center gap-3">
+                <!-- instagram -->
+                <a
+                  href="https://www.instagram.com/akbar.p.pamungkas.35?igsh=bHJhcGtsZGU0bjV3"
+                  target="_blank"
+                  class="w-11 h-11 rounded-full flex justify-center items-center border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-transparent hover:bg-[radial-gradient(circle_at_30%_107%,_#fdf497_0%,_#fdf497_5%,_#fd5949_45%,_#d6249f_60%,_#285aeb_90%)] hover:text-white hover:scale-110 shadow-sm transition duration-300"
+                  aria-label="Instagram"
                 >
-                  <title>Instagram</title>
-                  <path
-                    d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"
-                  /></svg
-              ></a>
-              <!-- facebook -->
-              <a
-                href="https://www.facebook.com/akbar.p.pamungkas.35?mibextid=ZbWKwL"
-                target="_blank"
-                class="w-10 h-10 mr-3 rounded-full flex justify-content-center items-center border border-slate-300 p-2 hover:border-sky-600 hover:bg-sky-600 hover:text-white"
-                ><svg
-                  role="img"
-                  width="25px"
-                  class="fill-current"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                  <svg
+                    role="img"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    class="fill-current"
+                  >
+                    <title>Instagram</title>
+                    <path
+                      d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"
+                    />
+                  </svg>
+                </a>
+                
+                <!-- facebook -->
+                <a
+                  href="https://www.facebook.com/akbar.p.pamungkas.35?mibextid=ZbWKwL"
+                  target="_blank"
+                  class="w-11 h-11 rounded-full flex justify-center items-center border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-transparent hover:bg-blue-600 hover:text-white hover:scale-110 shadow-sm transition duration-300"
+                  aria-label="Facebook"
                 >
-                  <title>Facebook</title>
-                  <path
-                    d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"
-                  /></svg
-              ></a>
-              <!-- linkedin-->
-              <a
-                href="https://www.linkedin.com/in/akbar-putra-pamungkas-0b1706364/"
-                target="_blank"
-                class="w-10 h-10 mr-3 rounded-full flex justify-content-center items-center border border-slate-300 p-2 hover:border-sky-600 hover:bg-sky-600 hover:text-white"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="currentColor"
-                  class="bi bi-linkedin"
-                  viewBox="0 0 16 16"
+                  <svg
+                    role="img"
+                    width="20"
+                    height="20"
+                    class="fill-current"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>Facebook</title>
+                    <path
+                      d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"
+                    />
+                  </svg>
+                </a>
+                
+                <!-- linkedin-->
+                <a
+                  href="https://www.linkedin.com/in/akbar-putra-pamungkas-0b1706364/"
+                  target="_blank"
+                  class="w-11 h-11 rounded-full flex justify-center items-center border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-transparent hover:bg-indigo-600 hover:text-white hover:scale-110 shadow-sm transition duration-300"
+                  aria-label="LinkedIn"
                 >
-                  <path
-                    d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"
-                  /></svg
-              ></a>
-              <!-- shutterstock contributor-->
-              <a
-                href="https://www.shutterstock.com/g/Akbar+x-wedi"
-                target="_blank"
-                class="w-10 h-10 mr-3 rounded-full flex justify-content-center items-center border border-slate-300 p-2 hover:border-red-500 hover:bg-red-500 hover:text-white"
-                ><svg
-                  role="img"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25px"
-                  class="fill-current"
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    class="bi bi-linkedin"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"
+                    />
+                  </svg>
+                </a>
+                
+                <!-- shutterstock contributor-->
+                <a
+                  href="https://www.shutterstock.com/g/Akbar+x-wedi"
+                  target="_blank"
+                  class="w-11 h-11 rounded-full flex justify-center items-center border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-transparent hover:bg-rose-600 hover:text-white hover:scale-110 shadow-sm transition duration-300"
+                  aria-label="Shutterstock"
                 >
-                  <title>Shutterstock</title>
-                  <path
-                    d="M9.839 18.761h5.313a1.53 1.53 0 0 0 1.527-1.528v-5.76h5.237v5.76A6.767 6.767 0 0 1 15.152 24H9.839v-5.239M14.16 5.237H8.85a1.53 1.53 0 0 0-1.53 1.527v5.761H2.085V6.764A6.763 6.763 0 0 1 8.85 0h5.31v5.237Z"
-                  /></svg
-              ></a>
+                  <svg
+                    role="img"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    class="fill-current"
+                  >
+                    <title>Shutterstock</title>
+                    <path
+                      d="M9.839 18.761h5.313a1.53 1.53 0 0 0 1.527-1.528v-5.76h5.237v5.76A6.767 6.767 0 0 1 15.152 24H9.839v-5.239M14.16 5.237H8.85a1.53 1.53 0 0 0-1.53 1.527v5.761H2.085V6.764A6.763 6.763 0 0 1 8.85 0h5.31v5.237Z"
+                    />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- akhir about -->
+    <!-- akhir tentang saya -->
     <!-- portofolio -->
-    <section id="portofolio" class="pt-32 pb-16 bg-green-100 overflow-x-hidden">
+    <section id="portofolio" class="pt-32 pb-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
       <div class="container">
         <div class="w-full px-4">
           <div
-            class="max-w-xl mx-auto text-center mb-16"
+            class="max-w-2xl mx-auto text-center mb-12"
             data-aos="fade-up"
-            data-aos-duration="3000"
+            data-aos-duration="1500"
           >
-            <h4 class="font-semibold text-lg text-green-500 mb-2">
+            <h4 class="font-bold uppercase text-indigo-600 dark:text-indigo-400 text-sm md:text-base tracking-widest mb-2">
               portofolio
             </h4>
-            <h2 class="font-bold text-slate-900 text-3xl mb-4">
-              project terbaru
+            <h2 class="font-extrabold text-slate-900 dark:text-white text-3xl mb-4 lg:text-4xl tracking-tight">
+              Project Terbaru
             </h2>
-            <p class="font-medium text-md text-slate-500">
-              Berikut adalah beberapa project terbaru yang saya kerjakan, yang
-              mencerminkan kemampuan dan kreativitas saya dalam bidang Teknik
-              Informatika. Saya selalu bersemangat untuk menghadirkan solusi
-              teknologi yang inovatif dan bermanfaat
+            <p class="font-medium text-base text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
+              Berikut adalah beberapa project terbaru yang saya kerjakan, mencakup pengembangan aplikasi web dan administrasi infrastruktur sistem server.
             </p>
           </div>
         </div>
-        <!-- project 1 -->
-        <div
-          class="w-full px-4 flex flex-wrap justify-center xl:w-10/12 xl:mx-auto"
-        >
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="100">
+          <button class="filter-btn active px-6 py-2 text-xs md:text-sm font-semibold rounded-full bg-indigo-600 text-white shadow-md transition duration-300" data-filter="all">Semua</button>
+          <button class="filter-btn px-6 py-2 text-xs md:text-sm font-semibold rounded-full bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-800 transition duration-300" data-filter="web">Web Dev</button>
+          <button class="filter-btn px-6 py-2 text-xs md:text-sm font-semibold rounded-full bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-800 transition duration-300" data-filter="sysadmin">SysAdmin / Infra</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="flex flex-wrap justify-center gap-8 xl:w-10/12 xl:mx-auto">
+          
+          <!-- project 1 (Web) -->
           <div
-            class="mb-12 p-4 md:w-1/2"
-            data-aos="fade-right"
-            data-aos-offset="300"
-            data-aos-easing="ease-in-sine"
+            class="project-card w-full md:w-[calc(50%-1rem)] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/40 rounded-2xl shadow-md overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition duration-300"
+            data-category="web"
+            data-aos="fade-up"
+            data-aos-duration="1500"
           >
-            <div class="rounded-md shadow-md overflow-hidden">
-              <a
-                href="https://akbarputrapamungkas.github.io/yearbook-SMANKA/vngrd-science-one/"
-                ><img src="img/portofolio-001.png" alt="vngrd-science-one"
-              /></a>
+            <div class="overflow-hidden aspect-[16/10]">
+              <a href="https://akbarputrapamungkas.github.io/yearbook-SMANKA/vngrd-science-one/" target="_blank">
+                <img src="img/portofolio-001.png" alt="website yearbook SMAN 1 Kaliwedi" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+              </a>
             </div>
-            <h3 class="font-semibold text-slate-900 text-xl mt-5 mb-3">
-              website yearbook SMAN 1 Kaliwedi
-            </h3>
-            <p class="font-medium text-base text-slate-500">
-              website alumni kelas ipa 1 sman 1 Kaliwedi
-            </p>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-md border border-indigo-100/30 dark:border-indigo-900/30">Web Dev</span>
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-100/30 dark:border-emerald-900/30">TailwindCSS</span>
+              </div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-lg lg:text-xl mb-2 group-hover:text-indigo-600 dark:group-hover:text-emerald-400 transition">
+                Website Yearbook SMAN 1 Kaliwedi
+              </h3>
+              <p class="font-medium text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                Website portofolio alumni kelas IPA 1 SMAN 1 Kaliwedi yang dirancang modern, interaktif, dan responsif.
+              </p>
+              <a href="https://akbarputrapamungkas.github.io/yearbook-SMANKA/vngrd-science-one/" target="_blank" class="inline-flex items-center text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+                Lihat Website Demo &rarr;
+              </a>
+            </div>
           </div>
 
-          <!-- akhir project 1 -->
-          <!-- project 2 -->
-
+          <!-- project 2 (Web) -->
           <div
-            class="mb-12 p-4 md:w-1/2"
-            data-aos="fade-left"
-            data-aos-offset="300"
-            data-aos-easing="ease-in-sine"
+            class="project-card w-full md:w-[calc(50%-1rem)] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/40 rounded-2xl shadow-md overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition duration-300"
+            data-category="web"
+            data-aos="fade-up"
+            data-aos-duration="1500"
+            data-aos-delay="100"
           >
-            <div class="rounded-md shadow-md overflow-hidden">
-              <a href="https://github.com/akbarputrapamungkas/itw2024_243040093"
-                ><img src="img/portofolio-002.png" alt="vngrd-science-one"
-              /></a>
+            <div class="overflow-hidden aspect-[16/10]">
+              <a href="https://github.com/akbarputrapamungkas/itw2024_243040093" target="_blank">
+                <img src="img/portofolio-002.png" alt="tugas kuliah internet dan teknologi web" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+              </a>
             </div>
-            <h3 class="font-semibold text-slate-900 text-xl mt-5 mb-3">
-              tugas kuliah internet dan teknologi web
-            </h3>
-            <p class="font-medium text-base text-slate-500">
-              repository github berisikan tugas kuliah internet dan teknologi
-              web universitas pasundan
-            </p>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-md border border-indigo-100/30 dark:border-indigo-900/30">Web Dev</span>
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 px-2.5 py-1 rounded-md border border-amber-100/30 dark:border-amber-900/30">HTML/CSS/JS</span>
+              </div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-lg lg:text-xl mb-2 group-hover:text-indigo-600 dark:group-hover:text-emerald-400 transition">
+                Tugas Kuliah Internet & Web
+              </h3>
+              <p class="font-medium text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                Kumpulan repositori dan project praktikum kuliah Internet & Teknologi Web di Universitas Pasundan.
+              </p>
+              <a href="https://github.com/akbarputrapamungkas/itw2024_243040093" target="_blank" class="inline-flex items-center text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+                Buka Repositori GitHub &rarr;
+              </a>
+            </div>
           </div>
-        </div>
-        <!-- akhir project 2 -->
-        <!-- projet 3 -->
-        <div
-          class="mb-12 p-4 md:w-1/2"
-          data-aos="fade-left"
-          data-aos-offset="300"
-          data-aos-easing="ease-in-sine"
-        >
-          <div class="rounded-md shadow-md overflow-hidden">
-            <a href="https://www.menwaunpas.com"
-              ><img src="img/beranda.png" alt="menwa unpas"
-            /></a>
+
+          <!-- project 3 (Web) -->
+          <div
+            class="project-card w-full md:w-[calc(50%-1rem)] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/40 rounded-2xl shadow-md overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition duration-300"
+            data-category="web"
+            data-aos="fade-up"
+            data-aos-duration="1500"
+          >
+            <div class="overflow-hidden aspect-[16/10]">
+              <a href="https://www.menwaunpas.com" target="_blank">
+                <img src="img/beranda.png" alt="website resmi menwa unpas" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+              </a>
+            </div>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-md border border-indigo-100/30 dark:border-indigo-900/30">Web Dev</span>
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-100/30 dark:border-emerald-900/30">TailwindCSS</span>
+              </div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-lg lg:text-xl mb-2 group-hover:text-indigo-600 dark:group-hover:text-emerald-400 transition">
+                Website Resmi Menwa UNPAS
+              </h3>
+              <p class="font-medium text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                Website profil resmi Resimen Mahasiswa (Menwa) Universitas Pasundan sebagai pusat informasi publik.
+              </p>
+              <a href="https://www.menwaunpas.com" target="_blank" class="inline-flex items-center text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+                Lihat Website Menwa &rarr;
+              </a>
+            </div>
           </div>
-          <h3 class="font-semibold text-slate-900 text-xl mt-5 mb-3">
-            website menwa unpas
-          </h3>
-          <p class="font-medium text-base text-slate-500">
-            website resmi menwa universitas pasundan
-          </p>
+
+          <!-- project 4 (SysAdmin) -->
+          <div
+            class="project-card w-full md:w-[calc(50%-1rem)] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/40 rounded-2xl shadow-md overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition duration-300"
+            data-category="sysadmin"
+            data-aos="fade-up"
+            data-aos-duration="1500"
+            data-aos-delay="100"
+          >
+            <div class="overflow-hidden aspect-[16/10]">
+              <img src="img/sysadmin_infra.png" alt="automated home server setup" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+            </div>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-100/30 dark:border-emerald-900/30">SysAdmin</span>
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:bg-blue-400 px-2.5 py-1 rounded-md border border-blue-100/30 dark:border-blue-900/30">Docker / Nginx</span>
+              </div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-lg lg:text-xl mb-2 group-hover:text-indigo-600 dark:group-hover:text-emerald-400 transition">
+                Home Server & CI/CD Infrastructure
+              </h3>
+              <p class="font-medium text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                Otomatisasi deployment server lokal, konfigurasi SSL Nginx Reverse Proxy, monitoring status dengan Grafana, dan deploy web otomatis.
+              </p>
+              <span class="inline-flex items-center text-xs font-bold text-slate-400 dark:text-slate-500">
+                In-house Production Infrastructure
+              </span>
+            </div>
+          </div>
+
         </div>
-        <!--akhir projet 3 -->
       </div>
     </section>
     <!-- akhir portofolio -->
 
-    <!-- serrtifikat -->
-    <section id="sertifikat" class="pt-36 pb-16 bg-slate-100 overflow-x-hidden">
+    <!-- sertifikat -->
+    <section id="sertifikat" class="pt-32 pb-24 bg-white dark:bg-slate-900 transition-colors duration-300 overflow-hidden">
       <div class="container">
         <div class="w-full px-4">
           <div
-            class="max-w-xl mx-auto text-center mb-16"
+            class="max-w-2xl mx-auto text-center mb-16"
             data-aos="fade-up"
-            data-aos-duration="3000"
+            data-aos-duration="1500"
           >
-            <h4 class="font-semibold text-lg text-green-500 mb-2">
+            <h4 class="font-bold uppercase text-indigo-600 dark:text-indigo-400 text-sm md:text-base tracking-widest mb-2">
               sertifikat
             </h4>
-            <h2 class="font-bold text-slate-900 text-3xl mb-4">
-              sertifikat terbaru
+            <h2 class="font-extrabold text-slate-900 dark:text-white text-3xl mb-4 lg:text-4xl tracking-tight">
+              Sertifikat Terbaru
             </h2>
-            <p class="font-medium text-md text-slate-500">
-              Saya bangga telah meraih berbagai sertifikat yang membuktikan
-              kompetensi dan dedikasi saya dalam bidang Teknik Informatika.
-              Berikut adalah beberapa sertifikat yang telah saya peroleh sebagai
-              bukti perjalanan pembelajaran dan pengembangan diri saya.
+            <p class="font-medium text-base text-slate-500 dark:text-slate-400">
+              Berikut adalah beberapa sertifikat yang telah saya peroleh sebagai bukti perjalanan pembelajaran dan pengembangan kompetensi saya di bidang IT.
             </p>
           </div>
         </div>
-        <!-- sertifikat 1 -->
-        <div
-          class="w-full px-4 flex flex-wrap justify-center xl:w-10/12 xl:mx-auto"
-        >
-          <div class="mb-12 p-4 lg:w-1/3 xl:1/3" data-aos="flip-left">
-            <div class="rounded-md shadow-md overflow-hidden">
-              <img src="img/sertifikat-001.jpg" alt="" />
+        
+        <div class="w-full px-4 flex flex-wrap justify-center gap-6 xl:w-11/12 xl:mx-auto">
+          
+          <!-- sertifikat 1 -->
+          <div class="mb-6 p-5 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.33%-1rem)] bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800/60 rounded-2xl hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-duration="1500">
+            <div class="rounded-xl overflow-hidden group mb-4">
+              <img src="img/sertifikat-001.jpg" alt="Sertifikat Pengenalan Pemrograman" class="w-full transition-transform duration-500 group-hover:scale-105" loading="lazy" />
             </div>
-            <h3 class="font-semibold text-slate-900 text-xl mt-5 mb-3">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+            <h3 class="font-bold text-slate-900 dark:text-white text-base lg:text-lg mb-2 leading-snug">
+              Introduction to Computational Thinking
             </h3>
-            <p class="font-medium text-base text-slate-500">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente,
-              atque?
+            <p class="font-medium text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-3">
+              Sertifikasi kompetensi dalam pemikiran komputasional, penyusunan logika algoritma, dan dasar-dasar pemecahan masalah terstruktur.
             </p>
           </div>
 
-          <!-- akhir sertifikat 1 -->
           <!-- sertifikat 2 -->
-
-          <div class="mb-12 p-4 lg:w-1/3 xl:1/3" data-aos="flip-right">
-            <div class="rounded-md shadow-md overflow-hidden">
-              <img src="img/sertifikat-002.jpg" alt="" />
+          <div class="mb-6 p-5 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.33%-1rem)] bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800/60 rounded-2xl hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="100">
+            <div class="rounded-xl overflow-hidden group mb-4">
+              <img src="img/sertifikat-002.jpg" alt="Sertifikat Hour of Code" class="w-full transition-transform duration-500 group-hover:scale-105" loading="lazy" />
             </div>
-            <h3 class="font-semibold text-slate-900 text-xl mt-5 mb-3">
-              the hour of code (code.org)
+            <h3 class="font-bold text-slate-900 dark:text-white text-base lg:text-lg mb-2 leading-snug">
+              The Hour of Code (Code.org)
             </h3>
-
-            <!-- Bagian teks yang disembunyikan menggunakan details -->
+            
             <details class="group">
-              <summary
-                class="font-medium text-base text-green-500 cursor-pointer outline-none hover:underline"
-              >
+              <summary class="font-semibold text-xs md:text-sm text-indigo-600 dark:text-emerald-400 cursor-pointer outline-none hover:underline">
                 Klik untuk detail
               </summary>
-              <p
-                class="font-medium text-base text-slate-500 mt-2 transition-all duration-300 ease-in-out"
-              >
-                Sertifikat ini menunjukkan bahwa saya telah menyelesaikan
-                tantangan "The Hour of Code" yang diselenggarakan oleh Code.org.
-                Tantangan ini dirancang untuk memperkenalkan konsep dasar
-                pemrograman kepada pemula, dan dengan menyelesaikannya, saya
-                membuktikan bahwa saya memiliki pemahaman awal tentang logika
-                pemrograman dan kemampuan untuk menyelesaikan masalah
-                menggunakan kode.
+              <p class="font-medium text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-2 transition-all duration-300 ease-in-out bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-100 dark:border-slate-800">
+                Sertifikat penyelesaian tantangan "The Hour of Code" oleh Code.org yang memperkenalkan konsep dasar pemrograman komputer, logika bersyarat, dan loop interaktif.
               </p>
             </details>
           </div>
 
-          <!-- akhir sertifikat 2 -->
           <!-- sertifikat 3 -->
-          <div class="mb-12 p-4 lg:w-1/3 xl:1/3" data-aos="flip-right">
-            <div class="rounded-md shadow-md overflow-hidden">
-              <img src="img/sertifikat-003.jpg" alt="" />
+          <div class="mb-6 p-5 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.33%-1rem)] bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800/60 rounded-2xl hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200">
+            <div class="rounded-xl overflow-hidden group mb-4">
+              <img src="img/sertifikat-003.jpg" alt="Sertifikat Mahasiswa UNPAS" class="w-full transition-transform duration-500 group-hover:scale-105" loading="lazy" />
             </div>
-            <h3 class="font-semibold text-slate-900 text-xl mt-5 mb-3">
-              universitas pasundan | mahasiswa teknik informatika
+            <h3 class="font-bold text-slate-900 dark:text-white text-base lg:text-lg mb-2 leading-snug">
+              Linux Server Fundamentals
             </h3>
-            <p class="font-medium text-base text-slate-500">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente,
-              atque?
+            <p class="font-medium text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-3">
+              Sertifikasi pemahaman administrasi dasar server Linux, mencakup manajemen hak akses (permissions), CLI navigation, serta instalasi paket dependency.
             </p>
           </div>
-          <!-- akhir sertifikat 3 -->
+
           <!-- sertifikat 4 -->
-          <div class="mb-12 p-4 lg:w-1/3 xl:1/3" data-aos="flip-right">
-            <div class="rounded-md shadow-md overflow-hidden">
-              <img src="img/sertifikat-004.jpg" alt="" />
+          <div class="mb-6 p-5 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.33%-1rem)] bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800/60 rounded-2xl hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="300">
+            <div class="rounded-xl overflow-hidden group mb-4">
+              <img src="img/sertifikat-004.jpg" alt="Sertifikat Web Pemula Dicoding" class="w-full transition-transform duration-500 group-hover:scale-105" loading="lazy" />
             </div>
-            <h3 class="font-semibold text-slate-900 text-xl mt-5 mb-3">
-              Belajar Pemrograman Web dengan HTML, CSS, dan JavaScript untuk
-              Pemula ( Dicoding )
+            <h3 class="font-bold text-slate-900 dark:text-white text-base lg:text-lg mb-2 leading-snug">
+              Pemrograman Web Dasar (Dicoding)
             </h3>
 
-            <!-- Bagian teks yang disembunyikan menggunakan details -->
             <details class="group">
-              <summary
-                class="font-medium text-base text-green-500 cursor-pointer outline-none hover:underline"
-              >
+              <summary class="font-semibold text-xs md:text-sm text-indigo-600 dark:text-emerald-400 cursor-pointer outline-none hover:underline">
                 Klik untuk detail
               </summary>
-              <p
-                class="font-medium text-base text-slate-500 mt-2 transition-all duration-300 ease-in-out"
-              >
-                Sertifikat ini menunjukkan bahwa saya telah menyelesaikan kursus
-                "Belajar Pemrograman Web dengan HTML, CSS, dan JavaScript untuk
-                Pemula" yang diselenggarakan oleh Dicoding. Kursus ini
-                memberikan pemahaman dasar tentang pengembangan web, termasuk
-                penggunaan HTML untuk struktur halaman, CSS untuk desain, dan
-                JavaScript untuk interaktivitas. Dengan sertifikat ini, saya
-                membuktikan bahwa saya memiliki pengetahuan dasar yang
-                diperlukan untuk memulai perjalanan saya dalam dunia
-                pengembangan web.
+              <p class="font-medium text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-2 transition-all duration-300 ease-in-out bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-100 dark:border-slate-800">
+                Sertifikat penyelesaian kursus "Belajar Pemrograman Web Dasar" dari Dicoding Academy. Membuktikan kompetensi menulis HTML5 semantik, styling CSS3 responsif, dan interaksi JavaScript DOM.
               </p>
             </details>
           </div>
-          <!-- akhir sertifikat 4 -->
+
         </div>
       </div>
     </section>
     <!-- akhir sertifikat -->
 
     <!-- awal blog -->
-    <section id="blog" class="pt-36 pb-32 bg-green-100 overflow-x-hidden">
+    <section id="blog" class="pt-32 pb-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
       <div class="container">
         <div class="w-full px-4">
           <div
             class="max-w-xl mx-auto text-center mb-16"
             data-aos="fade-up"
-            data-aos-duration="3000"
+            data-aos-duration="1500"
           >
-            <h4 class="font-semibold text-lg text-green-500 mb-2">blog</h4>
-            <h2 class="font-bold text-slate-900 text-3xl mb-4">
-              tulisan terkini
+            <h4 class="font-bold uppercase text-indigo-600 dark:text-indigo-400 text-sm md:text-base tracking-widest mb-2">blog</h4>
+            <h2 class="font-extrabold text-slate-900 dark:text-white text-3xl mb-4 lg:text-4xl tracking-tight">
+              Tulisan Terkini
             </h2>
-            <p class="font-medium text-md text-slate-500">
-              Simak tulisan terbaru saya yang membahas berbagai topik menarikcc
-              seputar teknologi, pemrograman, dan pengalaman belajar saya
+            <p class="font-medium text-base text-slate-500 dark:text-slate-400">
+              Simak tulisan terbaru saya yang membahas berbagai topik menarik seputar teknologi, pemrograman, dan administrasi sistem server.
             </p>
           </div>
-          <div class="flex flex-wrap">
+          <div class="flex flex-wrap justify-center gap-6">
             <!-- blog1 -->
-            <div class="w-full px-4 lg:w-1/2 xl:w-1/3 mb-6">
-              <div class="bg-white rounded-lg overflow-hidden shadow-lg">
-                <img src="img/portofolio-001.png" alt="" />
-                <div class="py-8 px-6">
+            <div class="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.33%-1rem)] mb-6">
+              <div class="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-md border border-slate-100 dark:border-slate-800/40 group hover:shadow-xl transition duration-300">
+                <div class="overflow-hidden aspect-[16/10]">
+                  <img src="img/portofolio-001.png" alt="Nginx deployment server" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                </div>
+                <div class="py-6 px-6">
+                  <span class="text-[10px] font-bold tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-100/30 dark:border-emerald-900/30 mb-3 inline-block">SysAdmin</span>
                   <h3>
                     <a
-                      href=""
-                      class="block mb-3 font-semibold text-slate-900 text-xl truncate hover:text-green-500"
-                      >Lorem ipsum dolor sit amet.</a
+                      href="#"
+                      class="block mb-2 font-bold text-slate-900 dark:text-white text-lg lg:text-xl truncate group-hover:text-indigo-600 dark:group-hover:text-emerald-400 transition"
+                      >Deploy Web di Nginx Server</a
                     >
                   </h3>
-                  <p class="font-medium text-slate-500 text-base mb-6">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Impedit, labore?
+                  <p class="font-medium text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2">
+                    Panduan praktis melakukan konfigurasi server block/virtual host Nginx untuk menayangkan website Anda.
                   </p>
                   <a
-                    href=""
-                    class="font-medium text-sm text-white bg-green-500 py-2 px-4 rounded-lg hover:opacity-80"
-                    >baca selengkapnya</a
+                    href="#"
+                    class="inline-block font-semibold text-xs text-white bg-indigo-600 dark:bg-indigo-500 py-2.5 px-5 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition"
+                    >Baca Selengkapnya</a
                   >
                 </div>
               </div>
             </div>
+            
             <!-- blog2 -->
-            <div class="w-full px-4 lg:w-1/2 xl:w-1/3 mb-6">
-              <div class="bg-white rounded-lg overflow-hidden shadow-lg">
-                <img src="img/portofolio-001.png" alt="" />
-                <div class="py-8 px-6">
+            <div class="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.33%-1rem)] mb-6">
+              <div class="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-md border border-slate-100 dark:border-slate-800/40 group hover:shadow-xl transition duration-300">
+                <div class="overflow-hidden aspect-[16/10]">
+                  <img src="img/portofolio-002.png" alt="Linux CLI shell console" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                </div>
+                <div class="py-6 px-6">
+                  <span class="text-[10px] font-bold tracking-wider uppercase bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-md border border-indigo-100/30 dark:border-indigo-900/30 mb-3 inline-block">CLI & Shell</span>
                   <h3>
                     <a
-                      href=""
-                      class="block mb-3 font-semibold text-slate-900 text-xl truncate hover:text-green-500"
-                      >Lorem ipsum dolor sit amet.</a
+                      href="#"
+                      class="block mb-2 font-bold text-slate-900 dark:text-white text-lg lg:text-xl truncate group-hover:text-indigo-600 dark:group-hover:text-emerald-400 transition"
+                      >Kenapa Belajar Linux CLI?</a
                     >
                   </h3>
-                  <p class="font-medium text-slate-500 text-base mb-6">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Impedit, labore?
+                  <p class="font-medium text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2">
+                    Mengapa command-line interface sangat krusial bagi mahasiswa IT untuk otomatisasi tugas dan deploy infrastructure.
                   </p>
                   <a
-                    href=""
-                    class="font-medium text-sm text-white bg-green-500 py-2 px-4 rounded-lg hover:opacity-80"
-                    >baca selengkapnya</a
+                    href="#"
+                    class="inline-block font-semibold text-xs text-white bg-indigo-600 dark:bg-indigo-500 py-2.5 px-5 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition"
+                    >Baca Selengkapnya</a
                   >
                 </div>
               </div>
             </div>
+            
             <!-- blog3 -->
-            <div class="w-full px-4 lg:w-1/2 xl:w-1/3 mb-6">
-              <div class="bg-white rounded-lg overflow-hidden shadow-lg">
-                <img src="img/portofolio-001.png" alt="" />
-                <div class="py-8 px-6">
+            <div class="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.33%-1rem)] mb-6">
+              <div class="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-md border border-slate-100 dark:border-slate-800/40 group hover:shadow-xl transition duration-300">
+                <div class="overflow-hidden aspect-[16/10]">
+                  <img src="img/portofolio-001.png" alt="Tailwind CSS optimisation" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                </div>
+                <div class="py-6 px-6">
+                  <span class="text-[10px] font-bold tracking-wider uppercase bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 px-2.5 py-1 rounded-md border border-amber-100/30 dark:border-amber-900/30 mb-3 inline-block">Frontend</span>
                   <h3>
                     <a
-                      href=""
-                      class="block mb-3 font-semibold text-slate-900 text-xl truncate hover:text-green-500"
-                      >Lorem ipsum dolor sit amet.</a
+                      href="#"
+                      class="block mb-2 font-bold text-slate-900 dark:text-white text-lg lg:text-xl truncate group-hover:text-indigo-600 dark:group-hover:text-emerald-400 transition"
+                      >Optimasi Tailwind CSS</a
                     >
                   </h3>
-                  <p class="font-medium text-slate-500 text-base mb-6">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Impedit, labore?
+                  <p class="font-medium text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2">
+                    Mengenal cara optimasi dan konfigurasi purge CSS di Tailwind v3 untuk menghasilkan bundle size yang sangat kecil.
                   </p>
                   <a
-                    href=""
-                    class="font-medium text-sm text-white bg-green-500 py-2 px-4 rounded-lg hover:opacity-80"
-                    >baca selengkapnya</a
+                    href="#"
+                    class="inline-block font-semibold text-xs text-white bg-indigo-600 dark:bg-indigo-500 py-2.5 px-5 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition"
+                    >Baca Selengkapnya</a
                   >
                 </div>
               </div>
@@ -575,78 +706,85 @@
         </div>
       </div>
     </section>
-    <!-- akhir blog -->
-    <!-- contact -->
-    <section id="contact" class="pt-36 mx-0 pb-32 overflow-x-hidden">
+    <!-- akhir blog --    <!-- contact -->
+    <section id="contact" class="pt-32 pb-24 bg-white dark:bg-slate-900 transition-colors duration-300 overflow-hidden">
       <div class="container">
-        <div class="w-full px-4" data-aos="fade-up" data-aos-duration="3000">
-          <div class="max-w-xl mx-auto text-center mb-16">
-            <h4 class="font-semibold text-lg text-green-500 mb-2">contact</h4>
-            <h2 class="font-bold text-slate-900 text-3xl mb-4">hubungi kami</h2>
-            <p class="font-medium text-md text-slate-500">
-              Hubungi saya untuk diskusi, kolaborasi, atau pertanyaan. Saya siap
-              membantu
+        <div class="w-full px-4" data-aos="fade-up" data-aos-duration="1500">
+          <div class="max-w-xl mx-auto text-center mb-12">
+            <h4 class="font-bold uppercase text-indigo-600 dark:text-indigo-400 text-sm md:text-base tracking-widest mb-2">contact</h4>
+            <h2 class="font-extrabold text-slate-900 dark:text-white text-3xl mb-4 lg:text-4xl tracking-tight">Hubungi Saya</h2>
+            <p class="font-medium text-base text-slate-500 dark:text-slate-400 mb-2">
+              Hubungi saya untuk diskusi, kolaborasi, atau pertanyaan seputar IT dan SysAdmin.
             </p>
-            <p class="font-medium text-md text-red-500">
-              Form contact ini hanya untuk tampilan saja, tidak akan mengirimkan
-              pesan
+            <p class="font-semibold text-xs text-amber-500 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/40 dark:border-amber-900/30 px-3 py-1.5 rounded-lg inline-block">
+              ⚠️ Form ini hanya simulasi UI (tidak mengirimkan pesan asli).
             </p>
           </div>
         </div>
 
-        <form>
+        <form onsubmit="event.preventDefault(); alert('Pesan berhasil disimulasikan terkirim!');">
           <div class="w-full lg:w-2/3 lg:mx-auto">
             <div
-              class="w-full mb-8 px-4"
-              data-aos="fade-left"
-              data-aos-duration="3000"
+              class="w-full mb-6 px-4"
+              data-aos="fade-up"
+              data-aos-duration="1500"
             >
               <label
                 for="name"
-                class="text-base font-bold uppercase text-green-500"
-                >nama</label
+                class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2 block"
+                >nama lengkap</label
               >
               <input
                 type="text"
                 id="name"
-                class="w-full p-3 rounded-md focus:ring-green-500 focus:border-green-500 focus:ring-1 focus:outline-none text-slate-900 bg-slate-200"
+                required
+                placeholder="Masukkan nama Anda"
+                class="w-full p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-emerald-400 transition-all duration-300"
               />
             </div>
             <div
-              class="w-full mb-8 px-4"
-              data-aos="fade-right"
-              data-aos-duration="3000"
+              class="w-full mb-6 px-4"
+              data-aos="fade-up"
+              data-aos-duration="1500"
+              data-aos-delay="100"
             >
               <label
                 for="email"
-                class="text-base font-bold uppercase text-green-500"
-                >email</label
+                class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2 block"
+                >alamat email</label
               >
               <input
                 type="email"
                 id="email"
-                class="w-full p-3 rounded-md focus:ring-green-500 focus:border-green-500 focus:ring-1 focus:outline-none text-slate-900 bg-slate-200"
+                required
+                placeholder="email@example.com"
+                class="w-full p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-emerald-400 transition-all duration-300"
               />
             </div>
             <div
-              class="w-full mb-8 px-4"
-              data-aos="fade-left"
-              data-aos-duration="3000"
+              class="w-full mb-6 px-4"
+              data-aos="fade-up"
+              data-aos-duration="1500"
+              data-aos-delay="200"
             >
               <label
-                for="massage"
-                class="text-base font-bold uppercase text-green-500"
+                for="message"
+                class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2 block"
                 >pesan</label
               >
               <textarea
-                class="w-full p-3 h-32 rounded-md focus:ring-green-500 focus:border-green-500 focus:ring-1 focus:outline-none text-slate-900 bg-slate-200"
+                id="message"
+                required
+                placeholder="Tulis pesan Anda di sini..."
+                class="w-full p-3 h-32 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-emerald-400 transition-all duration-300 resize-none"
               ></textarea>
             </div>
-            <div class="w-full" data-aos="fade-right" data-aos-duration="3000">
+            <div class="w-full px-4" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="300">
               <button
-                class="hover:opacity-80 hover:shadow-lg transition duration-500 text-base font-semibold bg-green-500 py-3 px-4 w-full rounded-full"
+                type="submit"
+                class="font-bold text-white bg-indigo-600 dark:bg-indigo-500 py-3.5 px-6 w-full rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-600 shadow-md hover:shadow-lg hover:shadow-indigo-500/25 transition duration-300 transform hover:-translate-y-0.5"
               >
-                kirim
+                Kirim Pesan
               </button>
             </div>
           </div>
@@ -654,87 +792,95 @@
       </div>
     </section>
     <!-- akhir contact -->
+    
     <!-- footer -->
-    <footer class="bg-slate-900 pt-24 pb-12 w-full overflow-x-hidden">
+    <footer class="bg-slate-950 text-slate-400 pt-20 pb-12 w-full overflow-hidden border-t border-slate-900">
       <div class="container">
-        <div class="flex flexwrap">
-          <div class="w-full md:w-1/2 px-4 mb-12 text-slate-300 font-medium">
-            <h2 class="font-bold text-4xl text-white mb-5">
-              akbar putra pamungkas
+        <div class="flex flex-wrap">
+          <div class="w-full md:w-1/2 px-4 mb-12 text-slate-400 font-medium">
+            <h2 class="font-extrabold text-2xl bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent mb-5 inline-block">
+              akbarputra.dev
             </h2>
-            <h3 class="font-bold mb-2 text-2xl">hubungi kami</h3>
-            <p>pamungkasputra9801@gmail.com</p>
-            <p>alamat</p>
-            <p>bandung</p>
+            <h3 class="font-bold text-slate-200 text-lg mb-3">Kontak Saya</h3>
+            <p class="text-sm mb-1.5">📧 pamungkasputra9801@gmail.com</p>
+            <p class="text-sm">📍 Bandung, Indonesia</p>
           </div>
-          <div class="w-full px-4 mb-12 md:w-1/2">
-            <h3 class="font-semibold text-white text-xl mb-5">tautan</h3>
-            <ul class="text-slate-300">
+          <div class="w-full px-4 mb-12 md:w-1/2 md:pl-16">
+            <h3 class="font-bold text-slate-200 text-lg mb-5">Tautan Cepat</h3>
+            <ul class="space-y-2 text-sm">
               <li>
                 <a
                   href="#home"
-                  class="inline-block text-base mb-3 hover:text-green-500"
-                  >beranda</a
+                  class="hover:text-indigo-400 transition"
+                  >Beranda</a
                 >
               </li>
               <li>
                 <a
                   href="#about"
-                  class="inline-block text-base mb-3 hover:text-green-500"
-                  >tentang saya</a
+                  class="hover:text-indigo-400 transition"
+                  >Tentang Saya</a
                 >
               </li>
               <li>
                 <a
                   href="#portofolio"
-                  class="inline-block text-base mb-3 hover:text-green-500"
-                  >portofolio</a
+                  class="hover:text-indigo-400 transition"
+                  >Portofolio</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#sertifikat"
+                  class="hover:text-indigo-400 transition"
+                  >Sertifikat</a
                 >
               </li>
               <li>
                 <a
                   href="#blog"
-                  class="inline-block text-base mb-3 hover:text-green-500"
-                  >blog</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  class="inline-block text-base mb-3 hover:text-green-500"
-                  >kontak saya</a
+                  class="hover:text-indigo-400 transition"
+                  >Blog</a
                 >
               </li>
             </ul>
           </div>
         </div>
-        <div class="w-full pt-10 border-t border-slate-800">
-          <div class="flex text-white items-center justify-center mb-5">
+        <div class="w-full pt-8 border-t border-slate-900 mt-8">
+          <div class="flex items-center justify-center gap-3 mb-6">
             <!-- instagram -->
             <a
               href="https://www.instagram.com/akbar.p.pamungkas.35?igsh=bHJhcGtsZGU0bjV3"
               target="_blank"
-              class="w-10 h-10 mr-3 rounded-full flex justify-content-center items-center border border-slate-300 p-2 hover:border-emerald-500 hover:bg-emerald-500 hover:text-white"
-              ><svg
+              class="w-9 h-9 rounded-full flex justify-center items-center border border-slate-800 text-slate-400 hover:border-transparent hover:bg-rose-600 hover:text-white transition duration-300"
+              aria-label="Instagram"
+            >
+              <svg
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
-                width="25px"
+                width="16"
+                height="16"
                 class="fill-current"
               >
                 <title>Instagram</title>
                 <path
                   d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"
-                /></svg
-            ></a>
+                />
+              </svg>
+            </a>
+            
             <!-- facebook -->
             <a
               href="https://www.facebook.com/akbar.p.pamungkas.35?mibextid=ZbWKwL"
               target="_blank"
-              class="w-10 h-10 mr-3 rounded-full flex justify-content-center items-center border border-slate-300 p-2 hover:border-sky-600 hover:bg-sky-600 hover:text-white"
-              ><svg
+              class="w-9 h-9 rounded-full flex justify-center items-center border border-slate-800 text-slate-400 hover:border-transparent hover:bg-blue-600 hover:text-white transition duration-300"
+              aria-label="Facebook"
+            >
+              <svg
                 role="img"
-                width="25px"
+                width="16"
+                height="16"
                 class="fill-current"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -742,51 +888,58 @@
                 <title>Facebook</title>
                 <path
                   d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"
-                /></svg
-            ></a>
+                />
+              </svg>
+            </a>
+            
             <!-- shutterstock contributor-->
             <a
               href="https://www.shutterstock.com/g/Akbar+x-wedi"
               target="_blank"
-              class="w-10 h-10 mr-3 rounded-full flex justify-content-center items-center border border-slate-300 p-2 hover:border-red-500 hover:bg-red-500 hover:text-white"
-              ><svg
+              class="w-9 h-9 rounded-full flex justify-center items-center border border-slate-800 text-slate-400 hover:border-transparent hover:bg-rose-600 hover:text-white transition duration-300"
+              aria-label="Shutterstock"
+            >
+              <svg
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
-                width="25px"
+                width="16"
+                height="16"
                 class="fill-current"
               >
                 <title>Shutterstock</title>
                 <path
                   d="M9.839 18.761h5.313a1.53 1.53 0 0 0 1.527-1.528v-5.76h5.237v5.76A6.767 6.767 0 0 1 15.152 24H9.839v-5.239M14.16 5.237H8.85a1.53 1.53 0 0 0-1.53 1.527v5.761H2.085V6.764A6.763 6.763 0 0 1 8.85 0h5.31v5.237Z"
-                /></svg
-            ></a>
+                />
+              </svg>
+            </a>
           </div>
-          <p
-            class="font-medium hover:text-white text-small text-slate-500 text-center"
-          >
-            &copy;dibuat oleh akbar putra pamungkas menggunakan tailwindcss3
+          <p class="text-xs text-slate-600 dark:text-slate-500 text-center">
+            &copy; 2026 Akbar Putra Pamungkas. Dibuat menggunakan Tailwind CSS v3.
           </p>
         </div>
       </div>
     </footer>
     <!-- akhir footer -->
-    <script src="script.js"></script>
+    <script src="assets/js/script.js"></script>
     <!-- script aos -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-      AOS.init();
+      AOS.init({
+        once: true,
+        duration: 1000
+      });
     </script>
     <!-- typed js -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <script>
       var typed5 = new Typed("#typed5", {
-        strings: ["Akbar", "Putra", "Pamungkas"],
-        typeSpeed: 100,
-        backSpeed: 100,
-        cursorChar: "I",
-        shuffle: true,
-        smartBackspace: false,
+        strings: ["Akbar Putra Pamungkas", "Informatics Student", "SysAdmin Enthusiast"],
+        typeSpeed: 70,
+        backSpeed: 50,
+        cursorChar: "_",
+        shuffle: false,
+        smartBackspace: true,
         loop: true,
       });
     </script>
